@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install' // Adjust this command based on your project
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'npm test' // Replace with your test command
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true // Adjust based on your artifacts
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build completed successfully!'
+        }
+        failure {
+            echo 'Build failed. Check the logs for details.'
+        }
+    }
+}
